@@ -1,0 +1,6 @@
+export const BASE_URL = ''
+export const USERS_URL = '/api/users'
+export const MOVIES_URL = '/api/movies'
+export const TV_URL = '/api/tv'
+export const SEARCH_URL = '/api/search'
+export const BOOKMARK_URL = '/api/bookmark'

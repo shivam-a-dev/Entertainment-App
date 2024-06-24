@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-
 body {
-    background: #00001485;
-    color: #fff;
-    }
+  background: #000014;
+  color: #fff;
+  font-family: "Outfit", sans-serif;
+}

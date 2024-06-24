@@ -4,15 +4,20 @@ import { MdLocalMovies } from "react-icons/md";
 import { PiTelevisionBold } from "react-icons/pi";
 import { FaBookmark } from "react-icons/fa";
 import { Link, useLocation } from 'react-router-dom'
-import dude from '../assets/dude.webp'
+import Model from "./Model";
+import { useState } from "react";
 
-const Header = () => {
+const Header = ({ img }) => {
     const location = useLocation();
     const pathname = location.pathname
-    const paths = [ '/', '/movies', '/series', '/bookmarks']
+    const paths = ['/', '/movies', '/series', '/bookmarks',]
+    const [isOpen, setIsOpen] = useState(false)
+    const isClose = () => {
+        setIsOpen(false)
+    }
 
     return (
-        <div className='flex flex-col h-[93vh] bg-slate-900 shadow-lg w-20 ml-6 items-center mt-6 rounded-[1rem]'>
+        <div className='flex flex-col h-[96vh] bg-slate-900 shadow-lg w-20 ml-6 items-center mt-6 rounded-[1rem] top-0 bottom-4 fixed'>
             <Link to={'/'} className='mt-4 mb-2'><MdMovieCreation size={30} color="#f93c3c" /></Link>
 
             {paths.map((path) => (
@@ -21,8 +26,19 @@ const Header = () => {
                 </Link>
             ))}
 
-            <img className="rounded-[4rem] border-2 border-white mt-auto mb-4" src={dude} height={40} width={40} />
+
+
+            <div className="mt-auto mb-4">
+                <Model isOpen={isOpen} isClose={isClose} />
+                <button onClick={() => setIsOpen(true)}>
+                    {!isOpen && <img className="rounded-[4rem] border-2 border-white " src={img} style={{ width: 40, height: 40 }} />}
+                </button>
+
+            </div>
+
+
         </div>
+
     )
 }
 
