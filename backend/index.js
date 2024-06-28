@@ -8,6 +8,8 @@ import tvRoutes from "./routers/tvRoutes.js"
 import searchRoutes from './routers/searchRoutes.js'
 import bookmarkRoutes from './routers/bookmarkRoutes.js'
 import cors from "cors"
+import path from 'path'
+import { fileURLToPath } from 'url';
 
 dotenv.config();
 connectDB();
@@ -20,7 +22,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors())
 
-
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname, '../frontend/dist')))
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'))
+})
 
 app.use("/api/users", userRoutes);
 app.use("/api/movies", movieRoutes)
