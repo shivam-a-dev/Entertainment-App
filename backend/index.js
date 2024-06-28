@@ -11,7 +11,10 @@ import cors from "cors"
 import path from 'path'
 import { fileURLToPath } from 'url';
 
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path:  path.join(__dirname, '../.env') });
+
 connectDB();
 
 
@@ -22,8 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors())
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+
 app.use(express.static(path.join(__dirname, '../frontend/dist')))
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/dist/index.html'))
