@@ -1,8 +1,14 @@
 {
   "name": "capstone-project-fullstack",
   "version": "1.0.0",
+
   "main": "index.js",
   "type": "module",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+
   "scripts": {
     "backend": "cd backend && npm run backend",
     "frontend": "cd frontend && npm run dev",
