@@ -92,7 +92,7 @@ const TvPage = () => {
 
 
   return (
-    <section className='w-full lg:w-[80rem] mx-auto'>
+    <section className='w-[80%] mx-auto'>
 
       {content}
 

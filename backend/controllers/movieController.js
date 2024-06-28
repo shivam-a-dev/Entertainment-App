@@ -1,4 +1,5 @@
 import axios from "axios";
+import Bookmarks from "../models/Bookmarks.js";
 
 const BASE_URL = "https://api.themoviedb.org/3";
 
@@ -27,6 +28,7 @@ export const getTrendingMovies = async (req, res) => {
 export const getMovieDetails = async (req, res) => {
   try {
     const { movieId } = req.params;
+    const user =  req.user._id;
     const response = await axios.get(
       `${BASE_URL}/movie/${movieId}`,{
         params: {
@@ -37,10 +39,25 @@ export const getMovieDetails = async (req, res) => {
       }
     );
     
+    // getting mpa rating from resposnse
     const mpaRating = response.data.release_dates.results.find(
       (result) => result.iso_3166_1 === "US"
     )?.release_dates.find((data) => data.certification !== "")?.certification;
-    res.json({...response.data, mpaRating });
+
+    // checking if movie exists in bookmarks collection
+    const bookmark = await Bookmarks.findOne({
+      user,
+      bookmarks: { $elemMatch: { mediaID: movieId, mediaType: 'movie' } },
+    });
+
+    const isBookmarked = { isBookmarked: false }
+  
+    if (bookmark) {
+      isBookmarked.isBookmarked = true
+    }
+    res.json({...response.data, mpaRating, ...isBookmarked });
+
+
   } catch (error) {
     console.error("Error fetching data:", error);
     res.status(500).send("Error fetching data");

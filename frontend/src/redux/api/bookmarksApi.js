@@ -10,7 +10,8 @@ export const bookmarkApiSlice = apiSlice.injectEndpoints({
                 method : 'POST',
                 body : data
                  
-            })
+            }),
+            keepUnusedDataFor: 60 * 60, // Cache data for 1 hour
         }),
 
         createBookmark : builder.mutation({
@@ -18,14 +19,16 @@ export const bookmarkApiSlice = apiSlice.injectEndpoints({
                 url : `${BOOKMARK_URL}`,
                 method : 'POST',
                 body : data
-            })
+            }),
+            keepUnusedDataFor: 60 * 60, // Cache data for 1 hour
         }),
 
         getAllBookmarks : builder.query({
             query : () => ({
                 url : `${BOOKMARK_URL}`,
                 method : 'GET'
-            })
+            }),
+            keepUnusedDataFor: 60 * 60, // Cache data for 1 hour
         })
     })
 })

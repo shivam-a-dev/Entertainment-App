@@ -52,17 +52,19 @@ const MoviesPage = () => {
   else {
     content = (
       <>
-        <h1 className='text-2xl ml-5'>Movies</h1>
+       
 
         {isLoading || isFetching ? (
           <div className="flex justify-center my-4">
             <Loader type="spinner-default" bgColor="#ffffff" color="#000000" size={100} />
           </div>
         ) : (
-          <>
-            <div className='flex flex-wrap '>
+          <div className='mx-auto'>
+            <h1 className='text-2xl ml-4 md:ml-20 lg:ml-4'>Movies</h1>
+            <div className='flex flex-wrap justify-center'>
+            
               {data?.map((movie) => (
-                <div key={movie.id} className="w-full sm:w-1/2 md:w-1/3 p-2">
+                <div key={movie.id} className="w-full md:w-[40%] lg:w-1/4 p-2">
                   <MovieCard movie={movie} type={'movie'} />
                 </div>
               ))}
@@ -78,7 +80,7 @@ const MoviesPage = () => {
                 Next
               </button>
             </div>
-          </>
+          </div>
         )}
 
       </>
@@ -90,7 +92,7 @@ const MoviesPage = () => {
 
 
   return (
-    <section className='w-full lg:w-[80rem] mx-auto'>
+    <section className='w-[80%] mx-auto'>
       {content}
     </section>
   );

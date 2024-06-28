@@ -4,19 +4,21 @@ import { TbDeviceTvOld } from "react-icons/tb";
 import { useGetDetailsQuery } from '../redux/api/moviesApi';
 import { useGetTvDetailsQuery } from "../redux/api/tvApi";
 import { CiBookmark } from "react-icons/ci";
-import { useCreateBookmarkMutation, useIsBookmarkedMutation } from "../redux/api/bookmarksApi";
+import { useCreateBookmarkMutation } from "../redux/api/bookmarksApi";
 import { IoMdBookmark } from "react-icons/io";
-import { useEffect, useState, useMemo, memo } from "react";
+import { useState, useMemo } from "react";
 import { toast } from "react-toastify";
 import Loader from 'react-js-loader';
+import { useDispatch } from "react-redux";
+import { toggleRefetch } from "../redux/features/bookmark/bookmarkSlice";
 
-const MovieCard = memo(function MovieCard({ movie, type = null }) {
+const MovieCard = ({ movie, type = null, source = null }) => {
   const [bookmarked, setBookmarked] = useState(false);
   let { media_type, id } = movie;
   id = id || movie.mediaID;
   const md_type = media_type || type;
 
-  const { data: moviData, isLoading: moviDataLoading } = useGetDetailsQuery({ movieId : id }, {
+  const { data: moviData, isLoading: moviDataLoading } = useGetDetailsQuery({ movieId: id }, {
     skip: md_type !== 'movie',
     selectFromResult: ({ data, isLoading }) => ({
       data,
@@ -32,7 +34,7 @@ const MovieCard = memo(function MovieCard({ movie, type = null }) {
     }),
   });
 
-  const [isBookmarked, { isLoading: isBookmarkedLoading }] = useIsBookmarkedMutation();
+
   const [createBookmark, { isLoading: createBookmarkLoading }] = useCreateBookmarkMutation();
 
   const image = useMemo(() => {
@@ -44,35 +46,25 @@ const MovieCard = memo(function MovieCard({ movie, type = null }) {
     return '';
   }, [md_type, moviData, tvData]);
 
-  useEffect(() => {
-    const handleCheckBookmark = async () => {
-      try {
-        const result = await isBookmarked({ mediaType: md_type, mediaID: id }).unwrap();
-        if (!isBookmarkedLoading) {
-          setBookmarked(result.isBookmarked);
-        }
-      } catch (err) {
-        console.error('Error checking bookmark status', err);
-      }
-    };
-    handleCheckBookmark();
-  }, [id, md_type, isBookmarked, isBookmarkedLoading]);
 
-  
+
 
   const mpaRating = md_type === 'movie' ? moviData?.mpaRating || 'NR' : tvData?.mpaRating || 'NR';
   const release_year = movie.release_year || movie.release_date?.slice(0, 4) || movie.first_air_date?.slice(0, 4);
   const title = movie.title || movie.name;
 
-
+  const dispatch = useDispatch();
 
   const handleBookmark = async () => {
+
     try {
-      const results = await createBookmark({ mediaType: md_type, mediaID: id,  title, release_year}).unwrap();
-      toast.success(results.message);
-      if (!createBookmarkLoading) {
-        setBookmarked(true);
-      }
+      toast.success('Bookmark added successfully!');
+      setBookmarked(true);
+       await createBookmark({ mediaType: md_type, mediaID: id, title, release_year }).unwrap();
+
+      dispatch(toggleRefetch());
+
+
     } catch (error) {
       console.log(error);
     }
@@ -83,31 +75,30 @@ const MovieCard = memo(function MovieCard({ movie, type = null }) {
   }
 
   return (
-    <div key={movie.id} className="relative group m-[1rem]">
+    <div key={movie.id} className="relative group m-[1rem] ">
       <Link to={`/${md_type}/${id}`}>
         <img
           src={image}
           alt={title}
           className="rounded-xl shadow-2xl m-0 p-0 transition duration-300 ease-in-out transform group-hover:opacity-50"
-          style={{ width: "40rem", height: "18rem" }}
-        />
+          style={{ width: "100%", height: "auto", maxHeight: "18rem", minHeight: "18rem", objectFit: "fill" }} />
       </Link>
       <button
         className="absolute top-4 right-4 z-10 bg-gray-800 p-1 rounded-full hover:bg-red-500"
-        disabled={bookmarked || createBookmarkLoading}
+        disabled={bookmarked || createBookmarkLoading || moviData?.isBookmarked}
         onClick={handleBookmark}
       >
-        {bookmarked ? <IoMdBookmark /> : <CiBookmark />}
+        {(bookmarked || moviData?.isBookmarked || tvData?.isBookmarked || source === 'bookmark') ? <IoMdBookmark /> : <CiBookmark />}
       </button>
 
-      <div className="absolute top-[78%] left-[2rem] transition duration-300 ease-in-out group-hover:opacity-100 right-0 bottom-0 opacity-0 overflow-hidden">
+      <div className="absolute top-[70%] left-[2rem] transition duration-300 ease-in-out group-hover:opacity-100 right-0 bottom-0 opacity-0 overflow-hidden">
         <span className="text-base text-white opacity-[0.6] ">
           {release_year} &#xb7; {md_type === 'movie' ? <MdLocalMovies className="inline" /> : <TbDeviceTvOld className="inline" />} &#xb7; {mpaRating}
         </span>
-        <h1 className="text-2xl">{title}</h1>
+        <h1 className="text-xl ">{title}</h1>
       </div>
     </div>
   );
-})
+}
 
 export default MovieCard;

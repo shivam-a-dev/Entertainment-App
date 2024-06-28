@@ -28,7 +28,7 @@ export const createBookmark = expressAsyncHandler(async (req, res) => {
 
 export const IsBookmarked = expressAsyncHandler(async (req, res) => {
   const { mediaID, mediaType } = req.body;
-  const user = await req.user._id;
+  const user =  req.user._id;
   if (!mediaID || !mediaType) {
     res.status(400).send({ message: "Invalid media type or id" });
     return;
@@ -49,7 +49,7 @@ export const IsBookmarked = expressAsyncHandler(async (req, res) => {
 });
 
 export const getBookmarks = expressAsyncHandler(async (req, res) => {
-  const user = await req.user._id;
+  const user =  req.user._id;
 
  try {
   const bookmarks = await Bookmarks.findOne({ user });

@@ -1,10 +1,11 @@
 import axios from "axios";
+import Bookmarks from "../models/Bookmarks.js";
 
 const BASE_URL = "https://api.themoviedb.org/3";
 
 export const getTvDetails = async (req, res) => {
   const { tvId } = req.params;
-
+  const user =  req.user._id;
   const mpaRatingUrl = `${BASE_URL}/tv/${tvId}/content_ratings`;
   const detailsUrl = `${BASE_URL}/tv/${tvId}`;
 
@@ -28,7 +29,22 @@ export const getTvDetails = async (req, res) => {
     const mpaRating = mpaResponse.data.results.find(
       (result) => result.iso_3166_1 === "US"
     )?.rating;
-    res.json({ ...detailsResponse.data, mpaRating });
+
+    // checking if tv exists in bookmarks collection
+     const bookmark = await Bookmarks.findOne({
+      user,
+      bookmarks: { $elemMatch: { mediaID: tvId, mediaType: 'tv' } },
+    });
+
+    const isBookmarked = { isBookmarked: false }
+  
+    if (bookmark) {
+      isBookmarked.isBookmarked = true
+    }
+
+
+
+    res.json({ ...detailsResponse.data, mpaRating, ...isBookmarked });
   } catch (error) {
     console.error("Error fetching data:", error);
     res.status(500).send("Error fetching data");
