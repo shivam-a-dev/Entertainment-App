@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api': 'https://entertainment-app-live.onrender.com',
+      '/api': 'https://localhost:3000',
     }
   },
 })
