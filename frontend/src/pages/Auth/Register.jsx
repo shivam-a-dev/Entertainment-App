@@ -36,7 +36,7 @@ const Register = () => {
             setPasswordError('Please enter your password')
             isValid = false
         }
-        if (confirmPassword !== password) { 
+        if (ConfirmpasswordError !== password) { 
             setConfirmPasswordError('Passwords do not match')
             isValid = false
         }
