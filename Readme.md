@@ -69,3 +69,5 @@ A simple Node.js/React application using Tmdb Api to display trending, popular, 
 
     Open your browser and navigate to http://localhost:3000.
 
+### Deployed Url
+https://entertainment-app-live.onrender.com
