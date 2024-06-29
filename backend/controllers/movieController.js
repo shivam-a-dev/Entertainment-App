@@ -105,6 +105,7 @@ export const getTopRatedMovies = async (req, res) => {
     const response = await axios.get(
       `${BASE_URL}/movie/top_rated?api_key=${process.env.API_KEY}&language=en-US&page=${page}`
     );
+    
 
     // Sort the movies by release date in descending order
     const sortedMovies = response.data.results.sort((a, b) => {
