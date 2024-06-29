@@ -26,17 +26,17 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors())
 
-
-app.use(express.static(path.join(__dirname, '../frontend/dist')))
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'))
-})
-
 app.use("/api/users", userRoutes);
 app.use("/api/movies", movieRoutes)
 app.use("/api/tv", tvRoutes)
 app.use("/api/search", searchRoutes)
 app.use("/api/bookmark", bookmarkRoutes)
+
+
+app.use(express.static(path.join(__dirname, '../frontend/dist')))
+app.get('', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'))
+})
 
 app.listen(3000, () => {
     console.log("listening to port 3000")
