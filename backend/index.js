@@ -10,10 +10,11 @@ import bookmarkRoutes from './routers/bookmarkRoutes.js'
 import cors from "cors"
 import path from 'path'
 import { fileURLToPath } from 'url';
+import findConfig from "find-config";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-dotenv.config({path: './.env'});
+dotenv.config({path: findConfig('.env')});
 
 connectDB();
 
