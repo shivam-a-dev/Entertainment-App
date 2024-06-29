@@ -54,9 +54,9 @@ A simple Express.js/React application using Tmdb Api to display trending, popula
     npm install
 
 3. Create a .env file in the root directory :
-    MONGO_URI= mongo db connection string
-    JWT_SECRET = jwt secret
-    API_KEY = Tmdb Api key
+    - MONGO_URI= mongo db connection string
+    - JWT_SECRET = jwt secret
+    - API_KEY = Tmdb Api key
 
 
 
