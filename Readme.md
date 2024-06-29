@@ -1,6 +1,6 @@
-# Node.js MongoDB Subscribers App
+# Express.js/React Entertainment App
 
-A simple Node.js/React application using Tmdb Api to display trending, popular, latest, top rated movies and tv shows.
+A simple Express.js/React application using Tmdb Api to display trending, popular, latest, top rated movies and tv shows.
 
 ## Features
 
