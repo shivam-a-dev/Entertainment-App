@@ -8,6 +8,8 @@ import { FaHamburger } from "react-icons/fa";
 import Dropdown from "./Dropdown";
 import { useLogOutMutation } from "../redux/api/usersApi";
 import { toast } from "react-toastify";
+import { CgProfile } from "react-icons/cg";
+import { IoMdLogOut } from "react-icons/io";
 
 const Header = ({ img }) => {
     const location = useLocation();
@@ -29,7 +31,11 @@ const Header = ({ img }) => {
 
         const profileLinks = [{ name: 'Profile', path: '/profile' }]
         const func = { name: 'Logout', function: logOutHandler, isLoading: isLoading }
-        const links = [{ name: <SiWindows size={18} style={{marginLeft: '2px'}} />, path: '/',  }, { name: <MdLocalMovies size={25} />, path: '/movies' }, { name: <PiTelevisionBold size={25} />, path: '/series' }, { name: <FaBookmark size={25} />, path: '/bookmarks' }]
+        const links = [{ name: <SiWindows size={18} style={{marginLeft: '2px'}} />, path: '/',  }, { name: <MdLocalMovies size={25} />, path: '/movies' }, 
+            { name: <PiTelevisionBold size={25} />, path: '/series' }, 
+            { name: <FaBookmark size={25} />, path: '/bookmarks' }, {name:<CgProfile size={25} />, path: '/profile'},
+            { name: <IoMdLogOut size={25} />, path: '/auth/login' }
+        ]
         
 
     return (
@@ -51,7 +57,7 @@ const Header = ({ img }) => {
                 </div>
 
                 <div className="visible md:hidden ml-4 mt-6">
-                    <Dropdown icon={<FaHamburger size={30} />} links={links}/>
+                    <Dropdown icon={<FaHamburger size={30} />} links={links} func={{name : <IoMdLogOut size={25} />, function: logOutHandler, isLoading: isLoading}}/>
                 </div>
             </>
         );
