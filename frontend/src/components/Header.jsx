@@ -34,7 +34,6 @@ const Header = ({ img }) => {
         const links = [{ name: <SiWindows size={18} style={{marginLeft: '2px'}} />, path: '/',  }, { name: <MdLocalMovies size={25} />, path: '/movies' }, 
             { name: <PiTelevisionBold size={25} />, path: '/series' }, 
             { name: <FaBookmark size={25} />, path: '/bookmarks' }, {name:<CgProfile size={25} />, path: '/profile'},
-            { name: <IoMdLogOut size={25} />, path: '/auth/login' }
         ]
         
 

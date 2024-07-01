@@ -1,5 +1,6 @@
 import { USERS_URL } from "../constant";
 import { logOut, setCredentials } from "../features/auth/authSlice";
+import { toggleRefetch } from "../features/bookmark/bookmarkSlice";
 import apiSlice from "./apiSlice";
 
 export const userApiSlice = apiSlice.injectEndpoints({
@@ -16,6 +17,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
           const { data } = await queryFulfilled;
 
           dispatch(setCredentials(data));
+          dispatch(toggleRefetch());
         } catch (err) {
           console.log(err);
         }
@@ -48,6 +50,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
           const { data } = await queryFulfilled;
 
           dispatch(setCredentials(data));
+          dispatch(toggleRefetch());
         } catch (err) {
           console.log(err);
         }
